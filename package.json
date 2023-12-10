@@ -1,0 +1,63 @@
+{
+  "name": "click-command",
+  "productName": "ClickCommand",
+  "version": "0.3.0",
+  "description": "My Electron application description",
+  "main": ".webpack/main",
+  "scripts": {
+    "dev": "DEV=y electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --ext .ts,.tsx ."
+  },
+  "keywords": [],
+  "author": {
+    "name": "yulitao",
+    "email": "yult123@qq.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.4.1",
+    "@electron-forge/maker-deb": "^6.4.1",
+    "@electron-forge/maker-rpm": "^6.4.1",
+    "@electron-forge/maker-squirrel": "^6.4.1",
+    "@electron-forge/maker-zip": "^6.4.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.4.1",
+    "@electron-forge/plugin-webpack": "^6.4.1",
+    "@types/lodash-es": "^4.17.10",
+    "@types/node": "18",
+    "@types/react": "18.2",
+    "@types/react-dom": "18.2",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "@vercel/webpack-asset-relocator-loader": "1.7.3",
+    "aws-sdk": "^2.1498.0",
+    "css-loader": "^6.0.0",
+    "electron": "26.1.0",
+    "eslint": "^8.0.1",
+    "eslint-plugin-import": "^2.25.0",
+    "fork-ts-checker-webpack-plugin": "^7.2.13",
+    "mock-aws-s3": "^4.0.2",
+    "nock": "^13.3.8",
+    "node-loader": "^2.0.0",
+    "prettier": "^3.0.3",
+    "style-loader": "^3.0.0",
+    "ts-loader": "^9.2.2",
+    "ts-node": "^10.0.0",
+    "typescript": "~4.5.4"
+  },
+  "dependencies": {
+    "@arco-design/web-react": "^2.55.0",
+    "@monaco-editor/react": "^4.6.0",
+    "dayjs": "1.10.5",
+    "electron-squirrel-startup": "^1.0.0",
+    "lodash-es": "^4.17.21",
+    "react": "18.2",
+    "react-dom": "18.2",
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6",
+    "uuid": "^9.0.1"
+  }
+}

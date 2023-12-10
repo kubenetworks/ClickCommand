@@ -1,0 +1,118 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  /* 来自 electronjs.org */
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    Noto Sans,
+    sans-serif,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Helvetica,
+    Arial,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol';
+  padding: 16px 20px;
+  min-height: 100vh;
+  background-color: #11111108;
+}
+
+.mono {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.breakall {
+  word-break: break-all;
+}
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.fs16 {
+  font-size: 16px;
+}
+
+.fs18 {
+  font-size: 18px;
+}
+
+.fw500 {
+  font-weight: 500;
+}
+
+.dpfx {
+  display: flex;
+}
+
+.justifyCenter {
+  display: flex;
+  justify-content: center;
+}
+
+.justifyBetween {
+  display: flex;
+  justify-content: space-between;
+}
+
+.alignCenter {
+  display: flex;
+  align-items: center;
+}
+
+.pad {
+  padding: 16px 20px;
+}
+
+.mlAuto {
+  margin-left: auto;
+}
+
+.ml4 {
+  margin-left: 4px;
+}
+
+.mr4 {
+  margin-right: 4px;
+}
+
+.mr8 {
+  margin-right: 8px;
+}
+
+.mr16 {
+  margin-right: 16px;
+}
+
+.mb16 {
+  margin-bottom: 16px;
+}
+
+.mb8 {
+  margin-bottom: 8px;
+}
+
+.arco-modal-content {
+  height: 400px;
+  overflow: auto;
+}
