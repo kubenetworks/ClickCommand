@@ -53,7 +53,7 @@ export default function LogViewer({
             <div
               className="mr8"
               style={{
-                border: '1px solid lightgrey',
+                backgroundColor: '#f6f6f6',
                 width: 48,
                 height: 22,
                 borderRadius: 8,
@@ -69,20 +69,19 @@ export default function LogViewer({
               <div
                 // item.time 可能重复
                 key={index}
-                className="dpfx"
                 style={{
                   marginBottom: 1,
                   padding: '0 8px',
                   borderRadius: 4,
                   whiteSpace: 'pre-wrap',
                   backgroundColor:
-                    item.source === 'stderr' ? '#ff616130' : undefined,
+                    item.source === 'stderr' ? '#ff616130' : '#f6f6f6',
                 }}
               >
-                <span style={{ color: 'grey' }} className="mr8 nowrap">
-                  {item.time}
-                </span>
-                <div>{item.content}</div>
+                <div style={{ color: 'grey' }}>{item.time}</div>
+                <div style={{ minWidth: 0, wordBreak: 'break-all' }}>
+                  {item.content}
+                </div>
               </div>
             );
           })}
