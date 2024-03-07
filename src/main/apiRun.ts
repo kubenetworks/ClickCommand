@@ -146,9 +146,12 @@ export async function runCommand(
 
   // 创建 process
   let status = 'pending';
-  const childProcess = spawn('/bin/bash', ['-ex', 'main.sh'], {
+  const childProcess = spawn('python', ['main.py'], {
     cwd,
-    env: envScoped,
+    env: {
+      ...envScoped,
+      ...process.env,
+    },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
 
