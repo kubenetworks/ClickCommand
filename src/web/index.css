@@ -61,8 +61,17 @@
   font-weight: 500;
 }
 
+/* flex layout */
 .dpfx {
   display: flex;
+}
+
+.flexCol {
+  flex-direction: column;
+}
+
+.flex1 {
+  flex: 1;
 }
 
 .justifyCenter {

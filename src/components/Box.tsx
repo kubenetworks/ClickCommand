@@ -1,6 +1,12 @@
 import { Props } from '@/typing';
+import { ReactNode } from 'react';
 
-export default function Box({ children, ...rest }: Props) {
+export default function Box({
+  children,
+  title,
+  icon,
+  ...rest
+}: Props & { title?: ReactNode; icon?: ReactNode }) {
   return (
     <section
       {...rest}
@@ -11,6 +17,12 @@ export default function Box({ children, ...rest }: Props) {
         ...rest.style,
       }}
     >
+      {title && (
+        <h2 className="fw500 fs16 mb8">
+          <span className="mr8">{icon}</span>
+          {title}
+        </h2>
+      )}
       {children}
     </section>
   );

@@ -86,5 +86,15 @@ export default async function initDb() {
   )`);
   logger.ok('create table_execution');
 
+  await db.run(`CREATE TABLE IF NOT EXISTS table_shortcut (
+    id TEXT NOT NULL UNIQUE,
+    createTime TEXT NOT NULL,
+    updateTime TEXT NOT NULL,
+
+    clickCommandPath TEXT,
+    preset TEXT
+  )`);
+  logger.ok('create table_execution');
+
   return db;
 }

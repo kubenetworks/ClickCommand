@@ -1,5 +1,6 @@
 import { CommandObj } from '@/main/apiCommand';
 import {
+  Button,
   Form,
   FormInstance,
   Input,
@@ -56,6 +57,29 @@ export default function ModalRunCommand({
         maskClosable={false}
         closable={false}
         autoFocus={false}
+        footer={(cancel, ok) => {
+          return (
+            <>
+              {cancel}
+              {ok}
+              <Button
+                type="primary"
+                onClick={async () => {
+                  const env = refForm.current?.getFieldsValue();
+                  console.log('env', env);
+
+                  if (!env) return;
+
+                  await onOk(env);
+
+                  close();
+                }}
+              >
+                Create Shortcut & Run
+              </Button>
+            </>
+          );
+        }}
         {...modalProps}
       >
         <Form ref={refForm} style={{ minHeight: 220 }}>
