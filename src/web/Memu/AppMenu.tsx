@@ -2,8 +2,8 @@ import { Divider, Dropdown, Menu } from '@arco-design/web-react';
 import {
   IconBulb,
   IconCommand,
-  IconDashboard,
   IconFire,
+  IconTool,
 } from '@arco-design/web-react/icon';
 import Box from '../../components/Box';
 import { useLocationContext } from '../contexts/LocationContext';
@@ -11,12 +11,12 @@ import { useLocationContext } from '../contexts/LocationContext';
 export const AppLocations = [
   {
     id: 'dashboard',
-    icon: IconDashboard,
-    name: 'Dashboard',
+    icon: IconCommand,
+    name: 'Workbench',
   },
   {
     id: 'cmd',
-    icon: IconCommand,
+    icon: IconTool,
     name: 'Commands',
   },
   {
