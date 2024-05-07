@@ -1,13 +1,13 @@
 import Box from '@/components/Box';
-import { CommandObj } from '@/main/apiCommand';
-import { Alert, Button, Message } from '@arco-design/web-react';
+import { Alert, Button, Message, Tag } from '@arco-design/web-react';
 import { IconCopy, IconFire } from '@arco-design/web-react/icon';
 import { useLocationContext } from '../contexts/LocationContext';
 import { useCreateShortcut, useListCommands, useRunCommand } from '../request';
 import ModalRunCommand from './ModalRunCommand';
+import { CommandSet } from '@/main/apiCommand';
 
 export default function Commands() {
-  const { data, loading } = useListCommands<CommandObj[]>();
+  const { data, loading } = useListCommands<CommandSet[]>();
   const { refetch: createShortcut } = useCreateShortcut();
   const { refetch: runCommand } = useRunCommand();
   const { setLocation } = useLocationContext();
@@ -50,51 +50,61 @@ export default function Commands() {
         gridAutoFlow: 'dense',
       }}
     >
-      {data?.map(cmd => {
-        const { name, envs, description, path } = cmd;
-        return (
-          <Box className="pad" key={path}>
-            <div className="fs16 fw500" style={{ paddingBottom: 8 }}>
-              {name}
-            </div>
-            <div style={{ paddingBottom: 20 }}>{description}</div>
+      {data?.map(cmdSet => {
+        const { name, description, path, cmdList } = cmdSet;
 
-            <div style={{}}>
-              <ModalRunCommand
-                onOk={async (val, flagShortcut) => {
-                  await runCommand({
-                    clickCommandPath: path,
-                    env: val,
-                  });
+        return cmdList.map(cmd => {
+          return (
+            <Box className="pad" key={cmd.id}>
+              <div className="fs16 fw500 dpfx" style={{ paddingBottom: 8 }}>
+                <span className="mr8">{name}</span>
+                <Tag bordered color="purple" size="small">
+                  {cmd.id}
+                </Tag>
+              </div>
+              <div>{description}</div>
+              <div style={{ paddingBottom: 20 }}>{cmd.description}</div>
 
-                  if (flagShortcut) {
-                    await createShortcut({
+              <div style={{}}>
+                <ModalRunCommand
+                  cmdSet={cmdSet}
+                  cmd={cmd}
+                  onOk={async (val, flagShortcut) => {
+                    await runCommand({
                       clickCommandPath: path,
-                      preset: val,
+                      cmdId: cmd.id,
+                      env: val,
                     });
-                    setLocation('dashboard');
-                    return;
-                  }
 
-                  setLocation('run');
-                }}
-                cmd={cmd}
-                render={open => {
-                  return (
-                    <Button
-                      type="primary"
-                      long
-                      icon={<IconFire />}
-                      onClick={open}
-                    >
-                      Run
-                    </Button>
-                  );
-                }}
-              />
-            </div>
-          </Box>
-        );
+                    if (flagShortcut) {
+                      await createShortcut({
+                        clickCommandPath: path,
+                        cmdId: cmd.id,
+                        preset: val,
+                      });
+                      setLocation('dashboard');
+                      return;
+                    }
+
+                    setLocation('run');
+                  }}
+                  render={open => {
+                    return (
+                      <Button
+                        type="primary"
+                        long
+                        icon={<IconFire />}
+                        onClick={open}
+                      >
+                        Run
+                      </Button>
+                    );
+                  }}
+                />
+              </div>
+            </Box>
+          );
+        });
       })}
     </div>
   );

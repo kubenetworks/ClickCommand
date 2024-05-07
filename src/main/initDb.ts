@@ -80,6 +80,7 @@ export default async function initDb() {
     log TEXT,
     clickCommandPath TEXT,
     clickCommandContent TEXT,
+    cmdId TEXT,
     env TEXT,
     targetType TEXT,
     targetInfo TEXT
@@ -90,8 +91,8 @@ export default async function initDb() {
     id TEXT NOT NULL UNIQUE,
     createTime TEXT NOT NULL,
     updateTime TEXT NOT NULL,
-
     clickCommandPath TEXT,
+    cmdId TEXT,
     preset TEXT
   )`);
   logger.ok('create table_execution');

@@ -54,7 +54,7 @@ export default function Dashboard() {
             {
               title: 'Command',
               dataIndex: 'clickCommandPath',
-              render(col, { clickCommandPath, preset }) {
+              render(col, { clickCommandPath, preset, cmdId }) {
                 return (
                   <div
                     className="cursorPointer fs13 color1"
@@ -62,12 +62,16 @@ export default function Dashboard() {
                       await runCommand({
                         clickCommandPath,
                         env: JSON.parse(preset),
+                        cmdId,
                       });
 
                       listRuns();
                     }}
                   >
-                    {col}
+                    <span className="mr8">{col}</span>
+                    <Tag bordered color="purple" size="small">
+                      {cmdId}
+                    </Tag>
                   </div>
                 );
               },
@@ -180,11 +184,16 @@ export default function Dashboard() {
                   clickCommandContent,
                   createTime,
                   log,
+                  cmdId,
                 },
               ) {
                 return (
                   <>
-                    <span className="colorGrey">{clickCommandPath}</span>
+                    <span className="colorGrey mr8">{clickCommandPath}</span>
+                    <Tag bordered color="purple" size="small">
+                      {cmdId}
+                    </Tag>
+
                     <LogViewer
                       log={log}
                       modalProps={{

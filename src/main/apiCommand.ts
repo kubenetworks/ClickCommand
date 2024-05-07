@@ -4,18 +4,26 @@ import path from 'path';
 import { Res } from './api';
 import { clickCommandIndex } from './config';
 
-export interface CommandObj {
-  path: string;
-
-  name: string;
+export interface Cmd {
+  id: string;
   description: string;
-  envs: {
-    key: string;
+  envs?: {
+    id: string;
     title: string;
     default: boolean;
     help: string;
     uiType?: string;
   }[];
+}
+
+export interface ClickCommandJson {
+  name: string;
+  description: string;
+  cmdList: Cmd[];
+}
+
+export interface CommandSet extends ClickCommandJson {
+  path: string;
 }
 
 export async function listCommands(
@@ -56,7 +64,7 @@ async function readDefs(defPath: string) {
     const file = await readFile(clickcommandJson, {
       encoding: 'utf8',
     });
-    const defObj = JSON.parse(file);
+    const defObj: CommandSet = JSON.parse(file);
 
     defObj.path = clickcommandJson;
     defs.push(defObj);

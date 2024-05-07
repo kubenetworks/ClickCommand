@@ -42,6 +42,7 @@ export default function Runs() {
           endTime,
           status,
           log,
+          cmdId,
         } = item;
 
         const strCreateTime = getTime(createTime);
@@ -65,8 +66,12 @@ export default function Runs() {
             >
               <span>
                 {icon}
-                <span className="ml4">{clickCommandContent.name}</span>
+                <span className="ml4 mr8">{clickCommandContent.name}</span>
+                <Tag bordered color="purple" size="small">
+                  {cmdId}
+                </Tag>
               </span>
+
               <Popover
                 trigger="click"
                 content={

@@ -8,7 +8,8 @@ import { dirname } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { Res } from './api';
 import { context } from './context';
-import { CommandObj } from './apiCommand';
+import { ClickCommandJson } from './apiCommand';
+import { clickCommandIndex } from './config';
 
 export interface RunObj {
   id: string;
@@ -18,7 +19,8 @@ export interface RunObj {
   status: string;
   log: LogItem[];
   clickCommandPath: string;
-  clickCommandContent: Omit<CommandObj, 'path'>;
+  clickCommandContent: ClickCommandJson;
+  cmdId: string;
   env: { [key: string]: string };
   targetType: string;
   targetInfo: string;
@@ -76,6 +78,7 @@ export async function listRuns(
 
 export interface RunCommandParam {
   clickCommandPath: string;
+  cmdId: string;
   env: { [key: string]: string };
 }
 
@@ -97,7 +100,7 @@ export async function runCommand(
     };
   }
 
-  const { clickCommandPath, env } = param;
+  const { clickCommandPath, cmdId, env } = param;
   let msg = '';
   if (!clickCommandPath.endsWith('clickcommand.json')) {
     msg = `clickCommandPath should end with "clickcommand.json"`;
@@ -127,8 +130,17 @@ export async function runCommand(
   const file = await readFile(clickCommandPath, {
     encoding: 'utf8',
   });
-  const defObj = JSON.parse(file);
-  const defEnvs = defObj.envs.map((item: any) => item.key);
+  const defObj: ClickCommandJson = JSON.parse(file);
+  const cmdObj = defObj.cmdList.find(cmd => cmd.id === cmdId);
+
+  if (!cmdObj) {
+    return {
+      status: 'failed',
+      msg: `cmdId(${cmdId}) not found`,
+    };
+  }
+
+  const defEnvs = cmdObj.envs?.map(item => item.id) || [];
   const paramEnvs = Object.keys(env);
   if (!isEqual(new Set(defEnvs), new Set(paramEnvs))) {
     return {
@@ -137,19 +149,16 @@ export async function runCommand(
     };
   }
 
-  const cwd = dirname(clickCommandPath);
-
-  const envScoped: { [key: string]: string } = {};
-  Object.keys(env).forEach(item => {
-    envScoped[`CLICK_${item}`] = env[item];
-  });
-
   // 创建 process
   let status = 'pending';
   const childProcess = spawn('python3', ['main.py'], {
-    cwd,
+    cwd: dirname(clickCommandPath),
     env: {
-      ...envScoped,
+      CLICKCOMMAND_RT: JSON.stringify({
+        cmd: cmdId,
+        args: env,
+      }),
+      PYTHONPATH: clickCommandIndex,
       ...process.env,
     },
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -158,14 +167,15 @@ export async function runCommand(
   // 创建 db 数据
   const id = uuidv4();
   await context.db.run(
-    `INSERT INTO table_run (id, createTime, status, clickCommandPath, clickCommandContent, env, targetType)
-    VALUES($id, $createTime, $status, $clickCommandPath, $clickCommandContent, $env, $targetType)`,
+    `INSERT INTO table_run (id, createTime, status, clickCommandPath, clickCommandContent, cmdId, env, targetType)
+    VALUES($id, $createTime, $status, $clickCommandPath, $clickCommandContent, $cmdId, $env, $targetType)`,
     {
       $id: id,
       $createTime: getIsoTime(),
       $status: status,
       $clickCommandPath: clickCommandPath,
       $clickCommandContent: file,
+      $cmdId: cmdId,
       $env: JSON.stringify(env),
       $targetType: 'local',
     },

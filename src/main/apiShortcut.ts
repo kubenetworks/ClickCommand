@@ -9,11 +9,13 @@ export interface ShortcutItem {
   updateTime: string;
 
   clickCommandPath: string;
+  cmdId: string;
   preset: string;
 }
 
 export interface CreateShortcutParam {
   clickCommandPath: string;
+  cmdId: string;
   preset: Record<string, any>;
 }
 
@@ -55,18 +57,19 @@ export async function createShortcut(
     };
   }
 
-  const { clickCommandPath, preset } = param;
+  const { clickCommandPath, preset, cmdId } = param;
   const time = new Date().toISOString();
   const id = uuidv4();
 
   await context.db.run(
-    `INSERT INTO table_shortcut (id, createTime, updateTime, clickCommandPath, preset) 
-    VALUES ($id, $createTime, $updateTime, $clickCommandPath, $preset )`,
+    `INSERT INTO table_shortcut (id, createTime, updateTime, clickCommandPath, cmdId, preset) 
+    VALUES ($id, $createTime, $updateTime, $clickCommandPath, $cmdId, $preset )`,
     {
       $id: id,
       $createTime: time,
       $updateTime: time,
       $clickCommandPath: clickCommandPath,
+      $cmdId: cmdId,
       $preset: JSON.stringify(preset),
     },
   );

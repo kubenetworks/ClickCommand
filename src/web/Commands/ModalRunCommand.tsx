@@ -1,4 +1,4 @@
-import { CommandObj } from '@/main/apiCommand';
+import { Cmd, CommandSet } from '@/main/apiCommand';
 import {
   Button,
   Form,
@@ -7,6 +7,7 @@ import {
   Modal,
   ModalProps,
   Switch,
+  Tag,
 } from '@arco-design/web-react';
 import { IconThunderbolt } from '@arco-design/web-react/icon';
 import { ReactNode, useRef, useState } from 'react';
@@ -15,12 +16,14 @@ export default function ModalRunCommand({
   render,
   modalProps = {},
   onOk,
+  cmdSet,
   cmd,
 }: {
   render(open: () => void): ReactNode;
   modalProps?: ModalProps;
   onOk(value: { [key: string]: string }, flagShortcut?: boolean): Promise<void>;
-  cmd: CommandObj;
+  cmdSet: CommandSet;
+  cmd: Cmd;
 }) {
   const [visible, setVisible] = useState(false);
 
@@ -39,7 +42,14 @@ export default function ModalRunCommand({
       {render(open)}
 
       <Modal
-        title={`Run ${cmd.name}`}
+        title={
+          <>
+            <span className="mr8">Run {cmdSet.name}</span>
+            <Tag bordered color="purple" size="small">
+              {cmd.id}
+            </Tag>
+          </>
+        }
         visible={visible}
         unmountOnExit
         onOk={async () => {
@@ -85,11 +95,11 @@ export default function ModalRunCommand({
         {...modalProps}
       >
         <Form ref={refForm} style={{ minHeight: 220 }}>
-          {cmd.envs.map(env => {
+          {cmd.envs?.map(env => {
             return (
               <Form.Item
-                key={env.key}
-                field={env.key}
+                key={env.id}
+                field={env.id}
                 label={env.title}
                 help={env.help}
                 initialValue={env.default}
