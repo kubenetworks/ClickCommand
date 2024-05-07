@@ -49,10 +49,23 @@
   text-align: center;
 }
 
+.hoverHighlight:hover {
+  color: #1664ff;
+}
+
+.color1 {
+  color: #1664ff;
+}
+.colorGrey {
+  color: var(--color-text-3);
+}
+
+.fs13 {
+  font-size: 13px;
+}
 .fs16 {
   font-size: 16px;
 }
-
 .fs18 {
   font-size: 18px;
 }
@@ -61,8 +74,17 @@
   font-weight: 500;
 }
 
+/* flex layout */
 .dpfx {
   display: flex;
+}
+
+.flexCol {
+  flex-direction: column;
+}
+
+.flex1 {
+  flex: 1;
 }
 
 .justifyCenter {

@@ -4,6 +4,16 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  listShortcuts(...args: any[]) {
+    return ipcRenderer.invoke('listShortcuts', ...args);
+  },
+  createShortcut(...args: any[]) {
+    return ipcRenderer.invoke('createShortcut', ...args);
+  },
+  deleteShortcut(...args: any[]) {
+    return ipcRenderer.invoke('deleteShortcut', ...args);
+  },
+
   listCommands(...args: any[]) {
     return ipcRenderer.invoke('listCommands', ...args);
   },

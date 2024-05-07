@@ -34,6 +34,10 @@ import { Res } from './main/api';
 import './web';
 
 interface IElectronAPI {
+  listShortcuts(): Promise<Res>;
+  createShortcut(): Promise<Res>;
+  deleteShortcut(): Promise<Res>;
+
   listCommands(): Promise<Res>;
   listRuns(): Promise<Res>;
 

@@ -2,6 +2,7 @@ import { app, dialog, ipcMain } from 'electron';
 import { listCommands } from './apiCommand';
 import { listRuns, runCommand } from './apiRun';
 import { AppConfig, appConfig } from './config';
+import { listShortcuts, createShortcut, deleteShortcut } from './apiShortcut';
 
 interface ResOk {
   status: 'ok';
@@ -16,6 +17,10 @@ interface ResFailed {
 export type Res = ResOk | ResFailed;
 
 export function registerApi() {
+  ipcMain.handle('listShortcuts', listShortcuts);
+  ipcMain.handle('createShortcut', createShortcut);
+  ipcMain.handle('deleteShortcut', deleteShortcut);
+
   ipcMain.handle('listCommands', listCommands);
 
   ipcMain.handle('listRuns', listRuns);

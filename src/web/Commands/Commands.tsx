@@ -3,11 +3,12 @@ import { CommandObj } from '@/main/apiCommand';
 import { Alert, Button, Message } from '@arco-design/web-react';
 import { IconCopy, IconFire } from '@arco-design/web-react/icon';
 import { useLocationContext } from '../contexts/LocationContext';
-import { useListCommands, useRunCommand } from '../request';
+import { useCreateShortcut, useListCommands, useRunCommand } from '../request';
 import ModalRunCommand from './ModalRunCommand';
 
 export default function Commands() {
   const { data, loading } = useListCommands<CommandObj[]>();
+  const { refetch: createShortcut } = useCreateShortcut();
   const { refetch: runCommand } = useRunCommand();
   const { setLocation } = useLocationContext();
 
@@ -60,11 +61,20 @@ export default function Commands() {
 
             <div style={{}}>
               <ModalRunCommand
-                onOk={async val => {
+                onOk={async (val, flagShortcut) => {
                   await runCommand({
                     clickCommandPath: path,
                     env: val,
                   });
+
+                  if (flagShortcut) {
+                    await createShortcut({
+                      clickCommandPath: path,
+                      preset: val,
+                    });
+                    setLocation('dashboard');
+                    return;
+                  }
 
                   setLocation('run');
                 }}
