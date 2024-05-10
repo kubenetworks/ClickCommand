@@ -154,12 +154,13 @@ export async function runCommand(
   const childProcess = spawn('python3', ['main.py'], {
     cwd: dirname(clickCommandPath),
     env: {
+      ...process.env,
       CLICKCOMMAND_RT: JSON.stringify({
         cmd: cmdId,
         args: env,
       }),
       PYTHONPATH: clickCommandIndex,
-      ...process.env,
+      PATH: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
     },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
