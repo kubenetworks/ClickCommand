@@ -1,6 +1,13 @@
 import Box from '@/components/Box';
 import { getTime } from '@/lib/utils';
-import { Button, Popover, Spin, Table, Tag } from '@arco-design/web-react';
+import {
+  Button,
+  Link,
+  Popover,
+  Spin,
+  Table,
+  Tag,
+} from '@arco-design/web-react';
 import {
   IconCheckCircle,
   IconCloseCircle,
@@ -46,18 +53,19 @@ export default function Dashboard() {
         <Table
           size="small"
           border={false}
-          scroll={{ y: 600 }}
+          scroll={{ y: 'calc(100vh - 200px)' }}
           rowKey="id"
           data={shortcuts}
           pagination={false}
+          hover={false}
           columns={[
             {
               title: 'Command',
               dataIndex: 'clickCommandPath',
               render(col, { clickCommandPath, preset, cmdId }) {
                 return (
-                  <div
-                    className="cursorPointer fs13 color1"
+                  <Link
+                    className="fs13"
                     onClick={async () => {
                       await runCommand({
                         clickCommandPath,
@@ -72,7 +80,7 @@ export default function Dashboard() {
                     <Tag bordered color="purple" size="small">
                       {cmdId}
                     </Tag>
-                  </div>
+                  </Link>
                 );
               },
             },
@@ -121,12 +129,13 @@ export default function Dashboard() {
         />
       </Box>
 
-      <Box className="pad" title="Running" icon="🏃" style={{ flex: 1 }}>
+      <Box className="pad" title="Runs" icon="🏃" style={{ flex: 1 }}>
         <Table
           border={false}
           size="small"
           pagination={false}
-          scroll={{ y: 600 }}
+          hover={false}
+          scroll={{ y: 'calc(100vh - 200px)' }}
           data={runs}
           rowKey="id"
           columns={[
